@@ -1,19 +1,17 @@
 import unittest
 import sys
 sys.path.append('../')
-from src.main import main
+from src.main import main, getAccountInformation
 import io
 
 class TestMain(unittest.TestCase):
-    
-    # Please delete this later
-    def test_ex(self):
+
+    def test_getAccountInformation(self):
         print("-------------------------------------------------------")
-        print("Initial example test for kesa python automation project")
-        output = io.StringIO()                # Create StringIO object
-        sys.stdout = output                   #  and redirect stdout.
-        main()                                # Call unchanged function.
-        sys.stdout = sys.__stdout__           # Reset redirect.
-        self.assertEqual(output.getvalue(), "Hello World\n")
+        print("Testing Account Information in main.py")
+        accountInfo = getAccountInformation()
+        self.assertIsNotNone(accountInfo)
+        self.assertTrue(type(accountInfo) is type({})) 
+        self.assertEqual(accountInfo["account_number"], "PA36CXRKP79V")
         print("test_ex done")
         print("-------------------------------------------------------", end="\n\n")
