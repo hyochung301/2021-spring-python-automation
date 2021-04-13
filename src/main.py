@@ -1,10 +1,12 @@
 import os
-import requests
+import requests #needs to be installed speratley using Pip3
 import json
+from datetime import datetime, timedelta
 
-end_point = os.environ['alpaca_end_point']
-api_key = os.environ['alpaca_api_key']
-secret_key = os.environ['alpaca_secret_key']
+end_point = "https://paper-api.alpaca.markets"  #url of Alpaca making trades
+end_point_for_data = "https://data.alpaca.markets" #url for getting real time data
+api_key = "PK6PH05TCS88DVTPEN86" #ID
+secret_key = "8BYckAsBk6E8esFJErSKyJflrFMulVzr6COK2W8q" #password
 
 def getAccountInformation():
     # return account information in dictionary
@@ -20,22 +22,21 @@ def getAccountInformation():
     
 
 def getStockInformation(stock):
-    # TODO here
-    # fetch information about the stock given as a parameter
-    # return stock information in dictionary
-    # example dictionary structure might be something like
-    '''
-    {
-        "name": "google",
-        "price": 2056,
-        "date": "2021-03-09"
+    # get yesterday's date at 09:00 CST timez
+    yesterday = datetime.now() - timedelta(1) #Getting today's date, -1 day to get "yesterday"
+    calendarDate = datetime.strftime(yesterday, '%Y-%m-%d')
+    targetStart = '{}T14:00:01Z'.format(calendarDate) # 14:00 UTC(Universal) is 09:00 CST(Chicago)
+    targetEnd = '{}T14:10:00Z'.format(calendarDate)
+
+    url = "{}/v2/stocks/{}/trades?start={}&end={}&limit=1".format(end_point_for_data, stock.upper(), targetStart, targetEnd)
+    headers = {
+    "APCA-API-KEY-ID": api_key,
+    "APCA-API-SECRET-KEY": secret_key  
     }
-    '''
-    return {
-        "name": stock,
-        "price": 123,
-        "date": "2021-03-09"
-    }
+    r = requests.get(url, headers=headers)
+    res = json.loads(r.text)
+    print(stock, "data:", res)
+    return res
 
 def displayInformation(accountInfo, stockInfos):
     # display account information
@@ -44,15 +45,15 @@ def displayInformation(accountInfo, stockInfos):
     print("  Cash Amt: {}".format(accountInfo["cash"]))
     print()
 
-    # TODO: display stock information
-    print("Stock Information:")
-    print("  TODO: display stock information")
-    
+       print("Stock Information:")
+    for info in stockInfos:
+        print(" {}:".format(info["symbol"]))                   #getting information of that symbol
+        print(" prices:${}".format(info["trades"][0]["p"]))  #actually printing out the stocks' prices  
 
 
 def main():
-    accountInfo = getAccountInformation()
-    stocks = ['Google', 'Apple', 'Facebook', 'Microsoft', 'Amazon']
+     accountInfo = getAccountInformation()
+    stocks = ['GOOGL', 'AAPL', 'LYFT', 'ABNB', 'AMZN'] #symbols of stocks used in the program
     stockInfos = []
     for stock in stocks:
         stockInfo = getStockInformation(stock)
