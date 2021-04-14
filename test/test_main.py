@@ -10,8 +10,8 @@ class TestMain(unittest.TestCase):
         print("-------------------------------------------------------")
         print("Testing Account Information in main.py")
         accountInfo = getAccountInformation()
-        self.assertIsNotNone(accountInfo)
-        self.assertTrue(type(accountInfo) is type({})) 
-        self.assertEqual(accountInfo["account_number"], "PA36CXRKP79V")
+        self.assertIsNotNone(accountInfo)  #Check if it is not NONE
+        self.assertTrue(type(accountInfo) is type({}))  #check if the type is dictioineary
+        self.assertEqual(accountInfo["account_number"], "PA3C0KJPLYY2")  #check if the values match
         print("test_ex done")
         print("-------------------------------------------------------", end="\n\n")
