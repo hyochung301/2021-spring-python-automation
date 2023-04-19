@@ -8,8 +8,10 @@ Before running the scripts, you need to set up a few things:
 * Create an account on [Alpaca](https://alpaca.markets/)
 * Obtain API credentials (API key and secret key) from Alpaca and store them in a .env file in the root directory of the project, using the following format:
 ```
-APCA_API_KEY_ID=<your_api_key>
-APCA_API_SECRET_KEY=<your_secret_key>
+api_key=<your_api_key>
+secret_key=<your_secret_key>
+end_point="https://paper-api.alpaca.markets"
+end_point_for_data=<"https://data.alpaca.markets">
 ```
 
 * Install the required Python packages by running 
