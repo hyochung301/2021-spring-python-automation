@@ -6,3 +6,7 @@
 
 ## How to run unit test
 `python3 -m unittest`
+
+
+API reference :
+https://alpaca.markets/docs/api-references/trading-api/
