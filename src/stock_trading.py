@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from account_management import end_point, end_point_for_data, api_key, secret_key
 import requests  # needs to be installed separately using Pip3
 import json
-from json_functions import updateJson
+from json_functions import update_json
 
 
 def get_stock_info(stock):
@@ -27,13 +27,10 @@ def get_stock_info(stock):
 
 
 def decision(json_content, stocks):  # maybe include stock info to be now
-    # this is the wrapper function to initiate updating stock information
-    # iterate (make a for loop) over stocks
-    # for each stock, get the most recent information from jsonContent
-    # if there's no stock information in jsonContent, that means we don't own any of that stock
-    # in that case, buy
-    # if any information is present, get the current price for stock, compare with the previous price saved in jsonContent
-    # do the business logic from there accordingly
+    # this is the wrapper function to initiate updating stock information iterate (make a for loop) over stocks for
+    # each stock, get the most recent information from jsonContent if there's no stock information in jsonContent,
+    # that means we don't own any of that stock in that case, buy if any information is present, get the current
+    # price for stock, compare with the previous price saved in jsonContent do the business logic from there accordingly
     for stock in stocks:
         # get information from jsonContent here
         stock_price = json_content[stock]["price"]  # change this with information found from jsonContent
@@ -86,7 +83,7 @@ def buy_stock_return_price(stock, current_price, num_share=5) -> None:
         time = None
         print(stock, "has been bought at $", updated_price, "@", time)
 
-        updateJson(stock, updated_price, num_share, time)
+        update_json(stock, updated_price, num_share, time)
 
     # we don't have any of this stock, please buy 5 shares (you can change the number of shares)
     # then update stockPrice
@@ -119,7 +116,7 @@ def sell_stock_return_price(stock, current_price, num_share=5):
         time = None
         print(stock, "has been sold at $", updated_price, "@", time)
 
-        updateJson(stock, updated_price, num_share, time)
+        update_json(stock, updated_price, num_share, time)
 
     else:
         print("transaction failed")

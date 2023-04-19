@@ -5,7 +5,7 @@ import os  # accessing environment variable.
 def create_json_file():
     if not os.path.isfile("wallet.json"):
         with open("wallet.json", "w") as file:  # check if wallet.json exists #if not  #create a wallet.json file
-            file.write({})
+            json.dump({}, file)
         return {}  # if the file has been just created, it will return an empty dict {}     pytjhon file write
     else:
         with open("wallet.json") as file:
@@ -15,7 +15,7 @@ def create_json_file():
         # information
 
 
-def updateJson(stock, updated_price, num_share, time):
+def update_json(stock, updated_price, num_share, time):
     # complete this function to update json file]
     # get transaction details directly from buy/sell function to avoid working with multiple return values
     # 2 things need to happen
@@ -23,15 +23,14 @@ def updateJson(stock, updated_price, num_share, time):
     # else update the information
     json_content = json.load("wallet.json")  # call json file into a dictionary
     if num_share > 0:
-        json_content[stock] = {}
-        json_content[stock]["price"] = updated_price
-        json_content[stock]["numShare"] = num_share
+        json_content[stock] = {"price": updated_price, "num_shares": num_share}
         # we bought some stock, update the json file
-        with open('wallet.json', 'w') as file:
-            json.dump(json_content, file)
         print(stock, "has been added to the wallet")
     else:
         # we sold all the stock, delete any information about the stock from json file
         with open('wallet.json', 'w') as file:
             del json_content[stock]
         print(stock, "has been removed from the wallet")
+
+    with open('wallet.json', 'w') as file:
+        json.dump(json_content, file)
