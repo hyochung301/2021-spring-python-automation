@@ -1,31 +1,39 @@
-import requests #needs to be installed speratley using Pip3
+import requests  # needs to be installed separately using Pip3
 import json
-end_point = "https://paper-api.alpaca.markets"  #url of Alpaca making trades
-end_point_for_data = "https://data.alpaca.markets" #url for getting real time data
-api_key = "PK6PH05TCS88DVTPEN86" #ID
-secret_key = "8BYckAsBk6E8esFJErSKyJflrFMulVzr6COK2W8q" #password
+from dotenv import load_dotenv
+import os
 
-def getAccountInformation():
+load_dotenv()  # load environment variables from .env file
+
+# Get the values of the required environment variables
+API_KEY = os.getenv("API_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
+ENDPOINT = os.getenv("ENDPOINT")
+END_POINT_FOR_DATA = os.getenv("END_POINT_FOR_DATA")
+
+
+def get_account_info():
     # return account information in dictionary
     # example dictionary structure might be something like
-    url = "{}/v2/account".format(end_point)
+
+    url = "{}/v2/account".format(ENDPOINT)
     headers = {
-        "APCA-API-KEY-ID": api_key,
-        "APCA-API-SECRET-KEY": secret_key
+        "APCA-API-KEY-ID": API_KEY,
+        "APCA-API-SECRET-KEY": SECRET_KEY
     }
     r = requests.get(url, headers=headers)
     res = json.loads(r.text)
     return res
 
 
-def displayInformation(accountInfo, stockInfos) -> None:
+def display_information(account_info, stock_infos) -> None:
     # display account information
     print("Account Information:")
-    print("  Account Number: {}".format(accountInfo["account_number"]))
-    print("  Cash Amt: {}".format(accountInfo["cash"]))
+    print("  Account Number: {}".format(account_info["account_number"]))
+    print("  Cash Amt: {}".format(account_info["cash"]))
     print()
 
     print("Stock Information:")
-    for info in stockInfos:
-        print(" {}:".format(info["symbol"]))                   #getting information of that symbol
-        print(" prices:${}".format(info["trades"][0]["p"]))  #actually printing out the stocks' prices
+    for info in stock_infos:
+        print(" {}:".format(info["symbol"]))  # getting information of that symbol
+        print(" prices:${}".format(info["trades"][0]["p"]))  # actually printing out the stocks' prices

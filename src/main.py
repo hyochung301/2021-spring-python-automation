@@ -1,6 +1,6 @@
 # import requests #needs to be installed separately using Pip3
-from stock_trading import get_stock_info, decision, buy_stock_return_price, sell_stock_return_price
-from json_functions import create_json_file, update_json
+from stock_trading import decision
+from json_functions import create_json_file
 
 
 def main():
